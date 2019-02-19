@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+ 
+</head>
+<body>
+  用户:<input type="text" id="user"><br>
+  密码:<input type="text" id="pass"><br>
+  <input type="button" id="log" value="登录">
+  <input type="button" id="reg" value="注册">
+  <script src="ajax.js"></script>
+  <script>
+    var user=document.querySelector('#user');
+    var pass=document.querySelector('#pass');
+    var loginBtn=document.querySelector('#log');
+    var regBtn=document.querySelector('#reg');
+    loginBtn.onclick=function(){
+      ajax({
+        url:'/user',
+        type:'get',
+        data:{act:'log',user:user.value,pass:pass.value},
+        success:function(data){
+          var json=JSON.parse(data);
+          console.log(json);
+          if(json.ok){
+            alert('登录成功')
+          }else{
+            alert('登录失败'+json.msg)
+          }
+        },
+        error:function(err){
+          alert('通信失败')
+        }
+      });
+    }
+    regBtn.onclick=function(){
+      ajax({
+        url:'/user',
+        type:'get',
+        data:{act:'reg',user:user.value,pass:pass.value},
+        success:function(data){
+          var json=JSON.parse(data);
+          if(json.ok){
+            alert('注册成功')
+          }else{
+            alert('注册失败'+json.msg)
+          }
+        },
+        error:function(err){
+          alert('通信失败')
+        }
+      });
+    }
+  </script>
+</body>
+</html>
